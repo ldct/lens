@@ -50,7 +50,8 @@ def refract(v, normal, n, np):
         return rotate(v, thetap-theta)
     if dp < 0 and cp < 0:
         return rotate(v, theta-thetap)
-
+    else:
+        return v
 
 
 class photon:

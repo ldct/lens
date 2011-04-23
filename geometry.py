@@ -1,3 +1,5 @@
+import math
+
 def line(start, end):
     (x0,y0) = start
     (x1,y1) = end
@@ -30,3 +32,11 @@ def line(start, end):
         if error > 0:
             y = y + ystep
             error = error - deltax
+            
+def circle(center, r):
+    (x,y) = center
+    dtheta = 1.0/r
+    theta = 0
+    while theta < 2*math.pi:
+        yield((x+r*math.cos(theta), y+r*math.sin(theta)), (0,1))#, (math.cos(theta), math.sin(theta)))
+        theta += dtheta

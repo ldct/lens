@@ -1,3 +1,5 @@
+import geometry
+
 white = (255,255,255)
 origin = (0,0)
 
@@ -26,8 +28,20 @@ reflection_map[640,480] = (-1,-1)
 refraction_map = {}
 for i in range(0,640):
     for j in range(0,200):
-        refraction_map[i,j] = ((0,1), 1.0)    
-    for j in range(200,500):
-        refraction_map[i,j] = ((0,1), 1.5)
-        
+        refraction_map[i,j] = ((0,0), 1.0)   
+    for j in range(200,300):
+        refraction_map[i,j] = ((0,0), 1.5)
+    refraction_map[i,199] = ((0,1), 1.0)
+    refraction_map[i,200] = ((0,1), 1.5)
+    refraction_map[i,299] = ((0,1), 1.5)
+    refraction_map[i,300] = ((0,1), 1.0)
+
+"""        
+for radius in range(1,50):    
+    for ((x,y),n) in geometry.circle((120,100), radius):
+        refraction_map[round(x),round(y)] = ((0,1),1.5)
+
+for ((x,y),n) in geometry.circle((120,100), 50):
+    refraction_map[round(x),round(y)] = ((0,1),1.5)
+"""        
 om = optical_map(reflection_map, refraction_map)
