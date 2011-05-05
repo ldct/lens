@@ -8,36 +8,40 @@ import geometry
 from constants import *
 from photon import *
 
-def draw(p, scale, colour = white):
-    pygame.draw.line(window, colour, p.r*scale, p.run_until_reflect(om).r*scale)
+scale = 1
+
+def draw(p, colour = white):
+    pygame.draw.line(window, colour, p.r*scale, p.run_once_and_reflect(om).r*scale)
     
-def drawpoint(point, scale, colour = white):
+def drawpoint(point, colour = white):
     pygame.draw.line(window, colour, list(x*scale for x in point), list(x*scale for x in point)) #pygame can't accept generator expressions
 
 pygame.init()
 
 window = pygame.display.set_mode((700, 500))
     
-r = array([1,100])
-v = array([.1,.1])
+r1 = array([1,70])
+r2 = array([1,71])
+v = array([.1,0])
 
 for (x,y) in reflection_map:
-    drawpoint((x,y), 0.5, (0,0,255))
+    drawpoint((x,y), (0,0,255))
 
 for (x,y) in refraction_map:
     if refraction_map[x,y][1] != 1.0:
-        drawpoint((x,y), 0.5, (0,0,255))
+        drawpoint((x,y), (0,0,255))
     
 for (x,y) in refraction_map:
     if refraction_map[x,y][0] != (0,0):
-        drawpoint((x,y), 0.5, (0,255,0))
+        drawpoint((x,y), (0,255,0))
     
 while True:
     for event in pygame.event.get(): 
         if event.type == pygame.KEYDOWN:
-            p = photon(r,v,1.0,None)
+            p1 = photon(r1,v,1.0,None)
+            p2 = photon(r2,v,1.0,None)
             colour = white
             while True:
-                draw(p,0.5,colour)
+                draw(p1,colour)
+                #draw(p2,colour)
                 pygame.display.flip()
-

@@ -35,8 +35,8 @@ def line(start, end):
             
 def circle(center, r):
     (x,y) = center
-    dtheta = 1.0/r
+    dtheta = 0.1/r
     theta = 0
     while theta < 2*math.pi:
-        yield((x+r*math.cos(theta), y+r*math.sin(theta)), (0,1))#, (math.cos(theta), math.sin(theta)))
+        yield((x+r*math.cos(theta), y+r*math.sin(theta)), (math.cos(theta), math.sin(theta)))
         theta += dtheta

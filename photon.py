@@ -36,20 +36,18 @@ def rotate(v,dh):
     return r * array([math.cos(h), math.sin(h)])
 
 def refract(v, normal, n, np):
+    if (n == np):
+        return v
     cp = cross(unit(v), unit(normal))
     dp = dot(unit(v), unit(normal))
     theta = math.acos(abs(dp))
     thetap = math.asin(n * math.sin(theta) / np)
     if abs(theta-thetap) > 1e-9:
         print theta, thetap, dp, cp
-    if dp > 0 and cp > 0:
-        return rotate(v, theta-thetap)
-    if dp > 0 and cp < 0:
-        return rotate(v, thetap-theta)
-    if dp < 0 and cp > 0:
-        return rotate(v, thetap-theta)
-    if dp < 0 and cp < 0:
-        return rotate(v, theta-thetap)
+    if (dp * cp > 0):
+        return (n / np) * rotate(v, theta-thetap)
+    if (dp * cp < 0):
+        return (n / np) * rotate(v, thetap-theta)
     else:
         return v
 
@@ -77,6 +75,7 @@ class photon:
         self.r = self.r + self.v
         if (x,y) in rm:
             self.n = rm[x,y][1]
+        return self
     def run_until_reflect(self,om):
         l = self.last_hit
         while (self.last_hit == l):

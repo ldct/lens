@@ -10,7 +10,7 @@ class optical_map:
     def __contains__(self, coord):
         if coord in self.reflection_map:
             return True
-        if coord in refraction_map and refraction_map[coord][0]:
+        if coord in refraction_map and (refraction_map[coord][0] != (0,0)):
             return True
 
 reflection_map = {}
@@ -36,12 +36,18 @@ for i in range(0,640):
     refraction_map[i,299] = ((0,1), 1.5)
     refraction_map[i,300] = ((0,1), 1.0)
 
-"""        
-for radius in range(1,50):    
+def drange(start,stop,step):
+    while start+step < stop:
+        yield start+step
+        start = start+step
+
+for radius in drange(1,50,.5):
     for ((x,y),n) in geometry.circle((120,100), radius):
-        refraction_map[round(x),round(y)] = ((0,1),1.5)
+        refraction_map[round(x),round(y)] = ((0,0),1.5)
 
 for ((x,y),n) in geometry.circle((120,100), 50):
-    refraction_map[round(x),round(y)] = ((0,1),1.5)
-"""        
+    refraction_map[round(x),round(y)] = (n,1.5)
+for ((x,y),n) in geometry.circle((120,100), 51):
+    refraction_map[round(x),round(y)] = (n,1.0)
+
 om = optical_map(reflection_map, refraction_map)
