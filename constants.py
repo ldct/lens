@@ -12,6 +12,12 @@ class optical_map:
             return True
         if coord in refraction_map and (refraction_map[coord][0] != (0,0)):
             return True
+    def fill(self, points, n):
+        for ((x,y),normal) in points:
+            self.refraction_map[round(x),round(y)] = (normal,n)
+    def fill_no_normal(self, points, n):
+        for((x,y),normal) in points:
+            self.refraction_map[round(x),round(y)] = ((0,0),n)
 
 reflection_map = {}
 for i in range(0,640):
@@ -26,28 +32,20 @@ reflection_map[640,0] = (-1,1)
 reflection_map[640,480] = (-1,-1)
 
 refraction_map = {}
-for i in range(0,640):
-    for j in range(0,200):
-        refraction_map[i,j] = ((0,0), 1.0)   
-    for j in range(200,300):
-        refraction_map[i,j] = ((0,0), 1.5)
-    refraction_map[i,199] = ((0,1), 1.0)
-    refraction_map[i,200] = ((0,1), 1.5)
-    refraction_map[i,299] = ((0,1), 1.5)
-    refraction_map[i,300] = ((0,1), 1.0)
+def make_prism(rm):
+    for i in range(0,640):
+        for j in range(0,200):
+            rm[i,j] = ((0,0), 1.0)   
+        for j in range(200,300):
+            rm[i,j] = ((0,0), 1.5)
+        rm[i,199] = ((0,1), 1.0)
+        rm[i,200] = ((0,1), 1.5)
+        rm[i,299] = ((0,1), 1.5)
+        rm[i,300] = ((0,1), 1.0)
 
 def drange(start,stop,step):
     while start+step < stop:
         yield start+step
         start = start+step
-
-for radius in drange(1,50,.5):
-    for ((x,y),n) in geometry.circle((120,100), radius):
-        refraction_map[round(x),round(y)] = ((0,0),1.5)
-
-for ((x,y),n) in geometry.circle((120,100), 50):
-    refraction_map[round(x),round(y)] = (n,1.5)
-for ((x,y),n) in geometry.circle((120,100), 51):
-    refraction_map[round(x),round(y)] = (n,1.0)
 
 om = optical_map(reflection_map, refraction_map)
