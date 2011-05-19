@@ -34,18 +34,10 @@ reflection_map[640,480] = (-1,-1)
 refraction_map = {}
 def make_prism(rm):
     for i in range(0,640):
-        for j in range(0,200):
-            rm[i,j] = ((0,0), 1.0)   
-        for j in range(200,300):
-            rm[i,j] = ((0,0), 1.5)
         rm[i,199] = ((0,1), 1.0)
         rm[i,200] = ((0,1), 1.5)
         rm[i,299] = ((0,1), 1.5)
         rm[i,300] = ((0,1), 1.0)
 
-def drange(start,stop,step):
-    while start+step < stop:
-        yield start+step
-        start = start+step
 
 om = optical_map(reflection_map, refraction_map)

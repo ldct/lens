@@ -33,22 +33,20 @@ while True:
     refraction_map.clear()
     print "filling"
     make_prism(refraction_map)
-    for radius in drange(1,50,.5):
-        om.fill_no_normal(geometry.circle(center,radius),1.5)
     om.fill(geometry.circle(center,50), 1.5)
     om.fill(geometry.circle(center,51), 1.0)
     window.fill((0,0,0))
     print "drawing"
-    """
     for (x,y) in reflection_map:
         drawpoint((x,y), (0,0,255))
 
     for (x,y) in refraction_map:
-        if refraction_map[x,y][1] != 1.0:
-            drawpoint((x,y), (0,0,255))
-        if refraction_map[x,y][0] != (0,0):
+        if refraction_map[x,y][1] == 1.0:
+            drawpoint((x,y), (0,255,255))
+        else:
             drawpoint((x,y), (0,255,0))
-    """
+        if refraction_map[x,y][0] == (0,0):
+            drawpoint((x,y), (255,0,0))
     print "rendering"        
     p1 = photon(r1,v,1.0,None)
     for i in range(20):
